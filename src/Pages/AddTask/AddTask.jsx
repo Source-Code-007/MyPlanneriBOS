@@ -17,8 +17,10 @@ const AddTask = () => {
     const [insertTaskLoading, setInsertTaskLoading] = useState(false)
     const [tasksLoading, setTasksLoading] = useState(true)
     const [tasks, setTasks] = useState([])
-    const {getTeam } = myLocalDB
-    const allTeam = getTeam()
+    const { getMyTeams } = myLocalDB
+    const myTeams = getMyTeams(user?.email)
+
+    console.log(myTeams);
 
     // useEffect(() => {
     //     if(user){
@@ -75,6 +77,11 @@ const AddTask = () => {
     // }
 
 
+    if (authLoading) {
+        return <div className='h-screen flex items-center justify-center'>
+            <MyLoading className={'h-14 w-14'} />
+        </div>
+    }
 
     return (
         <div className='min-h-screen pt-12 bg-slate-900'>
@@ -123,7 +130,7 @@ const AddTask = () => {
                         <select className="select my-inp w-full" id='team' defaultValue={''} {...register("priority", { required: true })}>
                             <option value={''} disabled>Team</option>
                            {
-                            allTeam?.map((team, ind) => <option key={ind} value={team.teamName}>{team.teamName}</option>)
+                            myTeams?.map((team, ind) => <option key={ind} value={team.teamName}>{team.teamName}</option>)
                            }
                         </select>
                         {errors.priority && <span className='text-red-500 block font-semibold'>Priority is required!</span>}

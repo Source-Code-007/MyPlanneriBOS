@@ -3,11 +3,14 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../Provider/authProvider';
 import MyLoading from '../Components/HelpingCompo/MyLoading';
 import { FaSignOutAlt, FaTasks } from 'react-icons/fa';
+import myLocalDB from '../util/localDB';
 
 const Navbar = () => {
     const { user, setUser, authLoading, setAuthLoading, signInByEmailFunc, signoutFunc } = useAuth()
     const [isProfileOpen, setIsProfileOpen] = useState(false)
     const profileRef = useRef(null);
+    const {getMyProfile} = myLocalDB
+    const myProfile = getMyProfile(user?.email)
 
     useEffect(() => {
         const handleOutsideClick = (event) => {
@@ -24,6 +27,7 @@ const Navbar = () => {
 
    
 
+    // handle signout fuc
     const handleSignoutFunc = () => {
         signoutFunc().then(()=> {console.log('signout'); setAuthLoading(false); setUser(null)}).catch(e=> {console.log(e.message); setAuthLoading(false)})
     }
@@ -44,7 +48,8 @@ const Navbar = () => {
                         <>
                             <figure className='relative w-16' onClick={() => setIsProfileOpen(!isProfileOpen)} ref={profileRef}>
                                 <img src={user?.photoURL} title={user?.displayName} alt={user.displayName} className='h-12 w-12 block cursor-pointer rounded-full border-2 border-purple-500' />
-                                <ul className={`absolute right-2 p-3 bg-slate-900 text-slate-100 border-2 border-purple-500 w-32 rounded transition duration-500 origin-top ${!isProfileOpen ? 'opacity-0 invisible top-0' : 'opacity-100 visible top-full'}`}>
+                                <ul className={`absolute top-full p-3 bg-slate-900 text-slate-100 border-2 border-purple-500 w-40 rounded transition-all duration-500 origin-top ${!isProfileOpen ? 'opacity-0 invisible -right-10' : 'opacity-100 visible right-2'}`}>
+                                    <p className=''>Bio: {myProfile?.bio}</p>
                                     <Link to={'/view-task'}>  <li className='flex gap-2 items-center py-2 cursor-pointer'> <FaTasks></FaTasks> My Tasks</li></Link>
                                     <li className='flex gap-2 items-center py-2 cursor-pointer' onClick={handleSignoutFunc}> <FaSignOutAlt></FaSignOutAlt> Sign Out</li>
                                 </ul>

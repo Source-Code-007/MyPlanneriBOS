@@ -131,8 +131,9 @@ const Homepage = () => {
                     <h2 className='my-subtitle'>Notifications</h2>
                     {
                         myTeamInfo?.map((teamInfo, ind) =>
-                        <div key={ind} className='bg-emerald-500 text-lg flex justify-between py-2 rounded px-6'><div>{teamInfo?.status === 'pending'?"You're invited from" : teamInfo?.status === 'approve'? 'Your\'re now member of' : teamInfo?.status === 'deny'? 'You have denied' : ''} <span className='text-purple-500 font-semibold'>{teamInfo?.teamName} </span> team</div> {teamInfo.status === 'pending'? <span className='flex items-center gap-2'>
-                        <FaCheck onClick={()=>{teamInvitaionStatusFunc(user?.email, 'approve', teamInfo?.teamName); window.location.reload()}} className='bg-white text-emerald-500 p-1 rounded cursor-pointer'></FaCheck> <FaTrash className='bg-white text-red-500 p-1 rounded cursor-pointer' onClick={()=>{teamInvitaionStatusFunc(user?.email, 'deny', teamInfo?.teamName); window.location.reload()}}></FaTrash></span> : <span className='font-bold text-xl'>{teamInfo?.status}</span>}</div>)
+                            <div key={ind} className='bg-emerald-500 text-lg flex justify-between py-2 rounded px-6'><div>{teamInfo?.status === 'pending' ? "You're invited from" : teamInfo?.status === 'approve' ? 'Your\'re now member of ' : teamInfo?.status === 'deny' ? 'You have denied ' : ' '} 
+                            <span className='text-purple-500 font-bold'>{teamInfo?.teamName} </span> team</div> {teamInfo.status === 'pending' ? <span className='flex items-center gap-2'>
+                                <FaCheck onClick={() => { teamInvitaionStatusFunc(user?.email, 'approve', teamInfo?.teamName); window.location.reload() }} className='bg-white text-emerald-500 p-1 rounded cursor-pointer'></FaCheck> <FaTrash className='bg-white text-red-500 p-1 rounded cursor-pointer' onClick={() => { teamInvitaionStatusFunc(user?.email, 'deny', teamInfo?.teamName); window.location.reload() }}></FaTrash></span> : <span className='font-bold text-xl'>{teamInfo?.status}</span>}</div>)
                     }
                 </div>
             }

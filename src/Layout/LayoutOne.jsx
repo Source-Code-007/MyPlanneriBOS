@@ -6,7 +6,7 @@ import FromTop from '../Components/HelpingCompo/FromTop';
 
 const LayoutOne = () => {
     return (
-        <>
+        <div className='overflow-hidden'>
             <Navbar></Navbar>
             <div className='flex bg-slate-900 text-white'>
                 <div className='h-screen w-16 fixed left-0 top-0 z-30'>
@@ -18,7 +18,7 @@ const LayoutOne = () => {
                     </FromTop>
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 

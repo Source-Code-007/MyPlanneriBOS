@@ -7,8 +7,7 @@ import { useAuth } from '../../Provider/authProvider';
 const CreateTeamModal = () => {
     const teamNameRef = useRef()
     const {user} = useAuth()
-    const { createTeam, getUser } = myLocalDB
-    const allUser = getUser()
+    const { createTeam } = myLocalDB
 
     // create team func
     const createTeamFunc = () => {

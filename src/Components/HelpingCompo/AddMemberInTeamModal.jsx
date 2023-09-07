@@ -5,8 +5,8 @@ import myLocalDB from '../../util/localDB';
 
 const AddMemberInTeamModal = ({activeTeam}) => {
     const userNameRef = useRef()
-    const { isUserInTeamFunc, getUser } = myLocalDB
-    const allUser = getUser()
+    const { isUserInTeamFunc, getUsers } = myLocalDB
+    const allUser = getUsers()
 
 
     console.log(activeTeam);
