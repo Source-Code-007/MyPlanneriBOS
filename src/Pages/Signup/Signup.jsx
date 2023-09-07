@@ -11,6 +11,7 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import { useAuth } from "../../Provider/authProvider";
 import { Link, useNavigate } from "react-router-dom";
+import myLocalDB from "../../util/localDB";
 
 const Signup = () => {
   const navigate = useNavigate()
@@ -21,6 +22,7 @@ const Signup = () => {
   const [isConfirmShowPass, setIsConfirmShowPass] = useState(false);
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
+  const {storeUsers} = myLocalDB
 
   // If user not exist, then redirect to homepage
   useEffect(() => {
@@ -39,7 +41,7 @@ const Signup = () => {
   // signup func
   const handleSignupFunc = (form) => {
     setAuthLoading(true);
-    const { name, photo, email, password, confirmPassword, terms, phone } =
+    const { name, photo, email, password, confirmPassword, terms, bio } =
       form;
     const formData = new FormData();
     formData.append("image", photo[0]);
@@ -66,7 +68,7 @@ const Signup = () => {
     }
 
     // After hosting photo then post register info
-    const url = `https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMG_HOSTING_API_KEY}`;
+    const url = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMG_HOSTING_API_KEY}`;
     axios
       .post(url, formData)
       .then((res) => {
@@ -75,8 +77,7 @@ const Signup = () => {
           name,
           photo_url,
           email,
-          phone,
-          userRole: "customer",
+          bio,
         };
         signUpByEmailPass(email, password)
           .then((res) => {
@@ -86,16 +87,17 @@ const Signup = () => {
               .then((res) => {
                 setAuthLoading(false);
                 Swal.fire({
-                  title: "Navigate to signin page!",
-                  html: "I will land signin page after <b></b> milliseconds.",
+                  title: "Account created! Navigate to homepage!",
+                  html: "I will land homepage after <b></b> milliseconds.",
                   timer: 1000,
                   timerProgressBar: true,
                 })
                   .then((result) => {
                     /* Read more about handling dismissals below */
                     if (result.dismiss === Swal.DismissReason.timer) {
-                      navigate('/signin')
+                      navigate('/')
                       // console.log("I was closed by the timer 112"a);
+                      storeUsers(user)
                     }
                   })
                   .catch((err) => {
@@ -124,6 +126,8 @@ const Signup = () => {
           className="space-y-3 p-5 lg:p-10 bg-purple-500 bg-opacity-25 shadow rounded"
         >
           <h2 className="font-bold text-3xl text-white">Please Register</h2>
+
+          {/* name */}
           <div>
             <label
               htmlFor="name"
@@ -143,6 +147,7 @@ const Signup = () => {
             )}
           </div>
 
+          {/* photo */}
           <div>
             <label
               htmlFor="photo"
@@ -160,25 +165,7 @@ const Signup = () => {
             )}
           </div>
 
-          <div>
-            <label
-              htmlFor="phone"
-              className="block mb-2 text-sm font-medium text-slate-300 dark:text-white"
-            >
-              Phone
-            </label>
-            <input
-              type="number"
-              className="my-inp"
-              id="phone"
-              {...register("phone", { required: true })}
-              placeholder="Your phone number here..."
-            />
-            {errors.phone && (
-              <p className="text-red-500">This field is required</p>
-            )}
-          </div>
-
+          {/* email */}
           <div>
             <label
               htmlFor="email"
@@ -198,6 +185,27 @@ const Signup = () => {
             )}
           </div>
 
+          {/* bio */}
+          <div>
+            <label
+              htmlFor="bio"
+              className="block mb-2 text-sm font-medium text-slate-300 dark:text-white"
+            >
+              Bio
+            </label>
+            <textarea
+              type="number"
+              className="my-inp h-32"
+              id="bio"
+              {...register("bio", { required: true })}
+              placeholder="Your bio here..."
+            />
+            {errors.bio && (
+              <p className="text-red-500">This field is required</p>
+            )}
+          </div>
+
+{/* password */}
           <div className="relative">
             <label
               htmlFor="password"
@@ -224,6 +232,7 @@ const Signup = () => {
             )}
           </div>
 
+{/* confirm password */}
           <div className="relative">
             <label
               htmlFor="confirmPassword"

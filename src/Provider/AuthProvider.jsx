@@ -12,7 +12,7 @@ export const AuthContext = createContext()
 
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState('')
-    const [authLoading, setAuthLoading] = useState(false)
+    const [authLoading, setAuthLoading] = useState(true)
     // const { axiosSecure } = UseAxiosSecure()
 
     // signin by email func
@@ -43,10 +43,10 @@ const AuthProvider = ({ children }) => {
     const profileUpdateFunc = (name, photo) => {
         setAuthLoading(true);
         return updateProfile(auth.currentUser, {
-          displayName: name,
-          photoURL: photo,
+            displayName: name,
+            photoURL: photo,
         });
-      };
+    };
 
     // signout func
     const signoutFunc = () => {
@@ -58,20 +58,12 @@ const AuthProvider = ({ children }) => {
         user, setUser, authLoading, setAuthLoading, signInByEmailFunc, signInByGithubFunc, signUpByEmailPass, signinByEmailPass, profileUpdateFunc, signoutFunc
     }
 
-    useEffect(() => {
-        setAuthLoading(true)
 
+    // user monitoring
+    useEffect(() => {
         const authMonitoring = onAuthStateChanged(auth, (currUser) => {
-            if (currUser) {
-                setAuthLoading(false)
-                setUser(currUser)
-                axios.post(`http://localhost:3000/create-jwt?email=${currUser.email}`)
-                    .then(res => { localStorage.setItem('access_token', JSON.stringify(res.data.result)); })
-                    .catch(e => console.log(e.message))
-            } else {
-                setAuthLoading(false)
-                localStorage.removeItem('access_token',)
-            }
+            setAuthLoading(false)
+            setUser(currUser)
         })
 
         return () => {

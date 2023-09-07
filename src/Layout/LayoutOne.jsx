@@ -2,6 +2,7 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Sidebar from '../Shared/Sidebar';
 import Navbar from '../Shared/Navbar';
+import FromTop from '../Components/HelpingCompo/FromTop';
 
 const LayoutOne = () => {
     return (
@@ -12,7 +13,9 @@ const LayoutOne = () => {
                     <Sidebar></Sidebar>
                 </div>
                 <div className='w-full'>
-                    <Outlet></Outlet>
+                    <FromTop>
+                        <Outlet></Outlet>
+                    </FromTop>
                 </div>
             </div>
         </>

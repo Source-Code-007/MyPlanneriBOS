@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../Provider/authProvider';
-import UseAxiosSecure from '../../Hooks/UseAxiosSecure';
 import { FaPlus } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -12,7 +11,6 @@ const Homepage = () => {
     const { user, authLoading } = useAuth()
     const [tasks, setTasks] = useState([])
     const [tasksLoading, setTasksLoading] = useState(true)
-    const { axiosSecure } = UseAxiosSecure()
 
 
 

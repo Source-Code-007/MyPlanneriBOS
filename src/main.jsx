@@ -10,7 +10,7 @@ import { Provider } from 'react-redux'
 import store from './Redux/store'
 import { AuthProvider } from './Provider/authProvider'
 import Signup from './Pages/Signup/Signup'
-import Signin from './Pages/signin/Signin'
+import Signin from './Pages/Signin/Signin'
 
 const router = createBrowserRouter([
   {
@@ -45,8 +45,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <AuthProvider>
       <Provider store={store}>
-        <RouterProvider router={router}>
-        </RouterProvider>
+          <RouterProvider router={router}>
+          </RouterProvider>
       </Provider>
     </AuthProvider>
   </React.StrictMode>,

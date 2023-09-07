@@ -5,7 +5,6 @@ import { FaCheck, FaPlus } from "react-icons/fa";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useForm } from 'react-hook-form';
-import UseAxiosSecure from '../../Hooks/UseAxiosSecure';
 import { useAuth } from '../../Provider/authProvider';
 import MyLoading from '../../Components/HelpingCompo/MyLoading';
 
@@ -14,7 +13,6 @@ const AddTask = () => {
     const todoList = useSelector(state => state.todo.value)
     const { user, authLoading } = useAuth()
     const dispatch = useDispatch()
-    const { axiosSecure } = UseAxiosSecure()
     const [insertTaskLoading, setInsertTaskLoading] = useState(false)
     const [tasksLoading, setTasksLoading] = useState(true)
     const [tasks, setTasks] = useState([])

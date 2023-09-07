@@ -2,23 +2,23 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
-import UseAxiosSecure from '../../Hooks/UseAxiosSecure';
+// import UseAxiosSecure from '../../Hooks/UseAxiosSecure';
 import { useAuth } from '../../Provider/authProvider';
 
 const ViewTask = () => {
     const todoList = useSelector(state => state.todo.value)
     const {user} = useAuth()
-    const {axiosSecure} = UseAxiosSecure()
+    // const {axiosSecure} = UseAxiosSecure()
     const [myTasks, setMyTasks] = useState([])
     const [tasksLoading, setTasksLoading] = useState(true)
 
-    useEffect(()=>{
-        if(user){
-            axiosSecure(`/get-tasks?email=${user?.email}`)
-                .then(res => { console.log(res.data); setMyTasks(res.data); setTasksLoading(false) })
-                .catch(e => {console.log(e.message); setTasksLoading(false)})
-        }
-    }, [user])
+    // useEffect(()=>{
+    //     if(user){
+    //         axiosSecure(`/get-tasks?email=${user?.email}`)
+    //             .then(res => { console.log(res.data); setMyTasks(res.data); setTasksLoading(false) })
+    //             .catch(e => {console.log(e.message); setTasksLoading(false)})
+    //     }
+    // }, [user])
 
     return (
         <div className='min-h-screen pt-12 bg-slate-900'>

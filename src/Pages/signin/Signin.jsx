@@ -38,7 +38,7 @@ const Signin = () => {
     setError("");
     const { email, password } = form;
 
-    const user = { email, password };
+    // const user = { email, password };
     signinByEmailPass(email, password)
       .then((res) => {
         const loggedUser = res.user;
@@ -222,10 +222,10 @@ const Signin = () => {
             <hr className="flex-grow" />
           </div>
           <div className="flex justify-evenly gap-4 flex-col sm:flex-row">
-            <button className="my-btn-one-outline flex items-center justify-center" onClick={handleSigninByEmailFunc}>
+            <button className="my-btn-one-outline !flex items-center justify-center">
               <FaGoogle className="mr-2"></FaGoogle> Google
             </button>
-            <button className="my-btn-one-outline flex items-center justify-center" onClick={handleSigninByGithubFunc}>
+            <button className="my-btn-one-outline !flex items-center justify-center">
               <FaGithub className="mr-2"></FaGithub> Github
             </button>
           </div>
