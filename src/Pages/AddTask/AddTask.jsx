@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useForm } from 'react-hook-form';
 import { useAuth } from '../../Provider/authProvider';
 import MyLoading from '../../Components/HelpingCompo/MyLoading';
+import myLocalDB from '../../util/localDB';
 
 
 const AddTask = () => {
@@ -16,6 +17,8 @@ const AddTask = () => {
     const [insertTaskLoading, setInsertTaskLoading] = useState(false)
     const [tasksLoading, setTasksLoading] = useState(true)
     const [tasks, setTasks] = useState([])
+    const {getTeam } = myLocalDB
+    const allTeam = getTeam()
 
     // useEffect(() => {
     //     if(user){
@@ -72,6 +75,7 @@ const AddTask = () => {
     // }
 
 
+
     return (
         <div className='min-h-screen pt-12 bg-slate-900'>
             <div className='w-3/6 mx-auto bg-slate-400 bg-opacity-20 p-4 space-y-5 rounded'>
@@ -80,21 +84,29 @@ const AddTask = () => {
                     <h2 className='font-semibold text-lg text-slate-300'>Create a list of task.</h2>
                 </div>
                 <form onSubmit={handleSubmit(onSubmit)} className='w-full space-y-4 text-slate-700'>
+
+                    {/* Tasks */}
                     <div>
                         <label className='text-white' htmlFor="task">Tasks</label>
                         <input type="text" id='task' placeholder="Your task here" className="my-inp" {...register("title", { required: true })} />
                         {errors.title && <span className='text-red-500 block font-semibold'>Task is required!</span>}
                     </div>
+
+                    {/* Description */}
                     <div>
                         <label className='text-white' htmlFor="descripion">Description</label>
                         <input type="text" id='descripion' placeholder="Your description here" className="my-inp" {...register("description", { required: true })} />
                         {errors.description && <span className='text-red-500 block font-semibold'>Description is required!</span>}
                     </div>
+
+                    {/* Due date */}
                     <div>
                         <label className='text-white' htmlFor="due-date">Due Date</label>
                         <input className='my-inp' id='due-date' type="datetime-local" {...register("dateTime", { required: true })} />
                         {errors.dateTime && <span className='text-red-500 block font-semibold'>Date and time are required!</span>}
                     </div>
+
+                    {/* Priority level */}
                     <div>
                         <label className='text-white' htmlFor="priority-level">Priority Level</label>
                         <select className="select my-inp w-full" id='priority-level' defaultValue={''} {...register("priority", { required: true })}>
@@ -109,10 +121,10 @@ const AddTask = () => {
                     <div>
                         <label className='text-white' htmlFor="team">Team</label>
                         <select className="select my-inp w-full" id='team' defaultValue={''} {...register("priority", { required: true })}>
-                            <option value={''} disabled>Priority</option>
-                            <option value={'Low'}>Low</option>
-                            <option value={'Medium'}>Medium</option>
-                            <option value={'High'}>High</option>
+                            <option value={''} disabled>Team</option>
+                           {
+                            allTeam?.map((team, ind) => <option key={ind} value={team.teamName}>{team.teamName}</option>)
+                           }
                         </select>
                         {errors.priority && <span className='text-red-500 block font-semibold'>Priority is required!</span>}
                     </div>

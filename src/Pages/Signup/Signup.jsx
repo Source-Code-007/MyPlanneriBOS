@@ -78,6 +78,7 @@ const Signup = () => {
           photo_url,
           email,
           bio,
+          isTeam: null
         };
         signUpByEmailPass(email, password)
           .then((res) => {
@@ -95,9 +96,9 @@ const Signup = () => {
                   .then((result) => {
                     /* Read more about handling dismissals below */
                     if (result.dismiss === Swal.DismissReason.timer) {
+                      storeUsers(user)
                       navigate('/')
                       // console.log("I was closed by the timer 112"a);
-                      storeUsers(user)
                     }
                   })
                   .catch((err) => {
