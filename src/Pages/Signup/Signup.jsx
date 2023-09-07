@@ -78,7 +78,7 @@ const Signup = () => {
           photo_url,
           email,
           bio,
-          isTeam: null
+          isTeam: []
         };
         signUpByEmailPass(email, password)
           .then((res) => {

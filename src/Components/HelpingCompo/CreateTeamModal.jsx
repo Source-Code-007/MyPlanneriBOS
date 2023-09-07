@@ -12,8 +12,7 @@ const CreateTeamModal = () => {
 
     // create team func
     const createTeamFunc = () => {
-        console.log(teamNameRef.current.value);
-        createTeam({ teamName: teamNameRef.current.value, member: [] })
+        createTeam({ teamName: teamNameRef.current?.value, member: [] })
         window.location.reload()
     }
 

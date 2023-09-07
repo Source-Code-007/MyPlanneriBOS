@@ -11,6 +11,7 @@ import store from './Redux/store'
 import { AuthProvider } from './Provider/authProvider'
 import Signup from './Pages/Signup/Signup'
 import Signin from './Pages/Signin/Signin'
+import UserRoute from './PrivateRoute/UserRoute'
 
 const router = createBrowserRouter([
   {
@@ -31,7 +32,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/add-task',
-        element: <AddTask></AddTask>
+        element: <UserRoute><AddTask></AddTask></UserRoute>
       },
       {
         path: '/view-task',

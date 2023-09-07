@@ -14,7 +14,7 @@ const AddMemberInTeamModal = ({activeTeam}) => {
     // create team func
     const addUserInTeamFunc = () => {
         console.log(userNameRef.current.value);
-        isUserInTeamFunc(userNameRef.current.value, activeTeam)
+        isUserInTeamFunc(userNameRef.current?.value, activeTeam)
     }
 
 
@@ -27,7 +27,7 @@ const AddMemberInTeamModal = ({activeTeam}) => {
                         <select className="select my-inp w-full" id='priority-level' defaultValue={''} ref={userNameRef}>
                             <option value={''} disabled>Users</option>
                             {
-                                allUser?.map((user, ind) => <option key={ind} value={user.email}>{user.email}</option>)
+                                allUser?.map((user, ind) => <option key={ind} value={user?.email}>{user?.email}</option>)
                             }
                         </select>
                         <div className='text-center'>

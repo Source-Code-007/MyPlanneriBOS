@@ -43,7 +43,7 @@ const Navbar = () => {
                     authLoading ? <MyLoading className={'h-12 w-12'} /> : user ?
                         <>
                             <figure className='relative w-16' onClick={() => setIsProfileOpen(!isProfileOpen)} ref={profileRef}>
-                                <img src={user?.photoURL} alt={user.displayName} className='h-12 w-12 block cursor-pointer rounded-full border-2 border-purple-500' />
+                                <img src={user?.photoURL} title={user?.displayName} alt={user.displayName} className='h-12 w-12 block cursor-pointer rounded-full border-2 border-purple-500' />
                                 <ul className={`absolute right-2 p-3 bg-slate-900 text-slate-100 border-2 border-purple-500 w-32 rounded transition duration-500 origin-top ${!isProfileOpen ? 'opacity-0 invisible top-0' : 'opacity-100 visible top-full'}`}>
                                     <Link to={'/view-task'}>  <li className='flex gap-2 items-center py-2 cursor-pointer'> <FaTasks></FaTasks> My Tasks</li></Link>
                                     <li className='flex gap-2 items-center py-2 cursor-pointer' onClick={handleSignoutFunc}> <FaSignOutAlt></FaSignOutAlt> Sign Out</li>
