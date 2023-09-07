@@ -13,7 +13,7 @@ const Homepage = () => {
     const { user, authLoading } = useAuth()
     const [tasks, setTasks] = useState([])
     const [tasksLoading, setTasksLoading] = useState(true)
-    const { getTeam, getMyTeamInfo } = myLocalDB
+    const { getTeam, getMyTeamInfo, teamInvitaionStatusFunc } = myLocalDB
     const [activeTeam, setActiveTeam] = useState('')
     const allTeam = getTeam()
     const myTeamInfo = getMyTeamInfo(user?.email)
@@ -30,7 +30,6 @@ const Homepage = () => {
     // }, [user])
 
 
-    // createTeamFunc
 
 
     // addTaskFunc
@@ -51,6 +50,7 @@ const Homepage = () => {
             })
             return
         }
+        navigate('/add-task')
     }
 
     // create team func
@@ -101,11 +101,6 @@ const Homepage = () => {
     }
 
 
-    // rejectTeamInviteFunc
-    const rejectTeamInviteFunc = ()=>{
-        
-    }
-
 
     if (authLoading) {
         return <div className='h-screen flex items-center justify-center'>
@@ -114,7 +109,7 @@ const Homepage = () => {
     }
 
     return (
-        <div className='min-h-screen pt-12 bg-slate-900 space-y-4'>
+        <div className='min-h-screen pt-12 bg-slate-900 space-y-10'>
             <div className='w-3/6 mx-auto bg-slate-400 text-white text-center bg-opacity-20 p-4 space-y-5 rounded'>
                 {user && <p className='font-semibold text-lg'>Hello, <span className='text-purple-500'>{user?.displayName}</span></p>}
                 {/* {tasksLoading? <MyLoading className={'h-14 w-14'}/> :tasks.length>0 && <p className='font-semibold text-3xl'>{tasks.length} tasks total!</p>} */}
@@ -125,7 +120,7 @@ const Homepage = () => {
                 </div>
                 <h2 className='font-bold text-3xl'>All Team</h2>
                 {
-                    !allTeam?.length > 0 ? <span className='my-2 font-bold text-red-300'>No team found!</span> : allTeam.map((team, ind) => <div key={ind} className='bg-emerald-500 py-2 px-4 font-semibold space-y-3 flex items-center justify-between'>{team.teamName} <FaPlus className='cursor-pointer' onClick={() => addMemberInTeamFunc(team)}></FaPlus></div>)
+                    !allTeam?.length > 0 ? <span className='my-2 font-bold text-red-300'>No team found!</span> : allTeam.map((team, ind) => <div key={ind} className='bg-emerald-500 py-2 px-4 font-semibold space-y-3 flex items-center justify-between rounded'>{team.teamName} <FaPlus className='cursor-pointer' onClick={() => addMemberInTeamFunc(team)}></FaPlus></div>)
                 }
 
             </div>
@@ -135,8 +130,9 @@ const Homepage = () => {
                 myTeamInfo?.length > 0 && <div className='w-3/6 mx-auto bg-slate-400 text-white text-center bg-opacity-20 p-4 space-y-5 rounded'>
                     <h2 className='my-subtitle'>Notifications</h2>
                     {
-                        myTeamInfo?.map((teamInfo, ind) => <div className='bg-emerald-500 text-lg flex justify-between py-2 rounded px-6'><div>You're invited from <span className='text-purple-500 font-semibold'>{teamInfo?.teamName}</span> team</div> <span className='flex items-center gap-2'>
-                            <FaCheck className='bg-white text-emerald-500 p-1 rounded cursor-pointer'></FaCheck> <FaTrash className='bg-white text-red-500 p-1 rounded cursor-pointer' onClick={rejectTeamInviteFunc}></FaTrash></span></div>)
+                        myTeamInfo?.map((teamInfo, ind) =>
+                        <div key={ind} className='bg-emerald-500 text-lg flex justify-between py-2 rounded px-6'><div>{teamInfo?.status === 'pending'?"You're invited from" : teamInfo?.status === 'approve'? 'Your\'re now member of' : teamInfo?.status === 'deny'? 'You have denied' : ''} <span className='text-purple-500 font-semibold'>{teamInfo?.teamName} </span> team</div> {teamInfo.status === 'pending'? <span className='flex items-center gap-2'>
+                        <FaCheck onClick={()=>{teamInvitaionStatusFunc(user?.email, 'approve', teamInfo?.teamName); window.location.reload()}} className='bg-white text-emerald-500 p-1 rounded cursor-pointer'></FaCheck> <FaTrash className='bg-white text-red-500 p-1 rounded cursor-pointer' onClick={()=>{teamInvitaionStatusFunc(user?.email, 'deny', teamInfo?.teamName); window.location.reload()}}></FaTrash></span> : <span className='font-bold text-xl'>{teamInfo?.status}</span>}</div>)
                     }
                 </div>
             }

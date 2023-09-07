@@ -34,6 +34,18 @@ const isUserInTeamFunc = (targetedUser, invitedTeamName) =>{
     localStorage.setItem('usersCollection', JSON.stringify([...restUser, existUser]))
 }
 
+// team invitation reject or approve
+const teamInvitaionStatusFunc = (targetedUser, status, teamName)=>{
+    const usersCollection = JSON.parse(localStorage.getItem('usersCollection'))
+    const existUser = usersCollection?.find(user=> user?.email === targetedUser )
+    const restUser = usersCollection?.filter(user=> user?.email !== targetedUser )
+    const existTeam =  existUser?.isTeam?.find(eUser => eUser?.teamName === teamName)
+    const restTeam =  existUser?.isTeam?.filter(eUser => eUser?.teamName !== teamName)
+    existTeam.status = status
+    existUser.isTeam = [...restTeam, existTeam]
+    localStorage.setItem('usersCollection', JSON.stringify([...restUser, existUser]))
+}
+
 // Get all team
 const getTeam = ()=>{
     let teamCollection = JSON.parse(localStorage.getItem('teamCollection'))
@@ -53,6 +65,6 @@ const getUser = ()=>{
     return usersCollection
 }
 
-const myLocalDB = {storeUsers, createTeam, getTeam, getUser, isUserInTeamFunc, getMyTeamInfo}
+const myLocalDB = {storeUsers, createTeam, getTeam, getUser, isUserInTeamFunc, getMyTeamInfo, teamInvitaionStatusFunc}
 
 export default myLocalDB

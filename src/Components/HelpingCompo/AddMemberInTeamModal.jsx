@@ -13,8 +13,8 @@ const AddMemberInTeamModal = ({activeTeam}) => {
 
     // create team func
     const addUserInTeamFunc = () => {
-        console.log(userNameRef.current.value);
         isUserInTeamFunc(userNameRef.current?.value, activeTeam)
+        window.location.reload()
     }
 
 
