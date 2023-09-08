@@ -68,6 +68,8 @@ const AuthProvider = ({ children }) => {
                 localStorage.setItem('currentUser', currUser?.email)
             }
             else {
+                setAuthLoading(false)
+                setUser(currUser)
                 localStorage.removeItem('currentUser')
             }
         })

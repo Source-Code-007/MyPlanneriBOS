@@ -101,7 +101,6 @@ const Homepage = () => {
     }
 
 
-
     if (authLoading) {
         return <div className='h-screen flex items-center justify-center'>
             <MyLoading className={'h-14 w-14'} />
