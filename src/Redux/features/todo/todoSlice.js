@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { v4 as uuidv4 } from 'uuid';
 
 const initialState = {
     value: []
@@ -10,18 +9,13 @@ export const todoSlice = createSlice({
     initialState,
     reducers: {
         insertTodo: (state, action) => {
-            const newTodo = {
-                _id: uuidv4(),
-                title: action.payload.title,
-                status: action.payload.status
-            }
-            state.value.push(newTodo)
+            state.value.push(action.payload)
         },
-        confirmTodo: (state, action) => {
+        handleStatusTodo: (state, action) => {
             // const restTodo = state.value.filter(tf => tf._id !== action.payload)
-            const confirmTodo = state.value.find(td => td._id === action.payload)
+            const updateTodoStatus = state.value.find(td => td._id === action.payload?._id)
             // console.log(confirmTodo);
-            confirmTodo.status = 'confirm'
+            updateTodoStatus.status = action.payload?.status
             // state.value = [...restTodo, confirmTodo]
         },
         deleteTodo: (state, action) => {
@@ -30,6 +24,6 @@ export const todoSlice = createSlice({
     },
 })
 
-export const { insertTodo, confirmTodo, deleteTodo } = todoSlice.actions
+export const { insertTodo, handleStatusTodo, deleteTodo } = todoSlice.actions
 
 export default todoSlice.reducer

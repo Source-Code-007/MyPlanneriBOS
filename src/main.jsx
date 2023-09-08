@@ -36,7 +36,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/view-task',
-        element: <ViewTask></ViewTask>
+        element: <UserRoute><ViewTask></ViewTask></UserRoute>
       }
     ]
   },

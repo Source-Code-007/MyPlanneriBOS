@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { confirmTodo, deleteTodo, insertTodo } from '../../Redux/features/todo/todoSlice';
+import { deleteTodo, insertTodo } from '../../Redux/features/todo/todoSlice';
 import { FaCheck, FaPlus } from "react-icons/fa";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form';
 import { useAuth } from '../../Provider/authProvider';
 import MyLoading from '../../Components/HelpingCompo/MyLoading';
 import myLocalDB from '../../util/localDB';
+import { v4 as uuidv4 } from 'uuid';
 
 
 const AddTask = () => {
@@ -17,64 +18,49 @@ const AddTask = () => {
     const [insertTaskLoading, setInsertTaskLoading] = useState(false)
     const [tasksLoading, setTasksLoading] = useState(true)
     const [tasks, setTasks] = useState([])
-    const { getMyTeams } = myLocalDB
+    const { getMyTeams, storeTasks } = myLocalDB
     const myTeams = getMyTeams(user?.email)
 
-    console.log(myTeams);
-
-    // useEffect(() => {
-    //     if(user){
-    //         axiosSecure(`/get-tasks?email=${user?.email}`)
-    //             .then(res => { console.log(res.data); setTasks(res.data); setTasksLoading(false) })
-    //             .catch(e => {console.log(e.message); setTasksLoading(false)})
-    //     }
-    // }, [user])
 
     const { register, handleSubmit, watch, reset, formState: { errors } } = useForm();
     const onSubmit = form => {
-        setInsertTaskLoading(true)
-        const { title, dateTime, priority } = form
-        console.log(title, dateTime, priority);
+        // setInsertTaskLoading(true)
+        const { title, dateTime, priority, teamMember } = form
+        const task = {_id: uuidv4(), title, deadline: dateTime, status: 'pending', priority, user: teamMember? teamMember : user?.email}
+
+        console.log(task);
 
         // insert task to local state by redux
-        dispatch(insertTodo({ title: title, status: 'pending', deadline: dateTime, priority: priority }))
+        dispatch(insertTodo(task))
+        
+        // insert task to localStorage
+        storeTasks(task)
 
-        // insert task to databse
-        axiosSecure.post('/insert-tasks', { title: title, status: 'pending', deadline: dateTime, priority: priority, user: user?.email })
-            .then(res => {
-                setInsertTaskLoading(false)
-                console.log(res.data)
-                if (res.data?.insertedId) {
-                    toast('Task added!', {
-                        position: "bottom-right",
-                        autoClose: 1500,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    });
-                }
-            })
-            .catch(e => { console.log(e.message); setInsertTaskLoading(false) })
+        toast('Task added!', {
+            position: "bottom-right",
+            autoClose: 1500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+        });
+            reset()
+        };
 
-        reset()
-    };
-
-    // const confirmTodoFunc = (id) => {
-    //     dispatch(confirmTodo(id))
-    //     toast('Task confirmed!', {
-    //         position: "bottom-right",
-    //         autoClose: 1500,
-    //         hideProgressBar: false,
-    //         closeOnClick: true,
-    //         pauseOnHover: true,
-    //         draggable: true,
-    //         progress: undefined,
-    //         theme: "dark",
-    //     });
-    // }
+        // const confirmTodoFunc = (id) => {
+        //     dispatch(confirmTodo(id))
+        //     toast('Task confirmed!', {
+        //         position: "bottom-right",
+        //         autoClose: 1500,
+        //         hideProgressBar: false,
+        //         closeOnClick: true,
+        //         pauseOnHover: true,
+        //         draggable: true,
+        //         progress: undefined,
+        //         theme: "dark",
+        //     });
 
 
     if (authLoading) {
@@ -124,25 +110,20 @@ const AddTask = () => {
                         </select>
                         {errors.priority && <span className='text-red-500 block font-semibold'>Priority is required!</span>}
                     </div>
-                    {/* team */}
+                    {/* team member */}
                     <div>
-                        <label className='text-white' htmlFor="team">Team</label>
-                        <select className="select my-inp w-full" id='team' defaultValue={''} {...register("priority", { required: true })}>
-                            <option value={''} disabled>Team</option>
-                           {
-                            myTeams?.map((team, ind) => <option key={ind} value={team.teamName}>{team.teamName}</option>)
-                           }
+                        <label className='text-white' htmlFor="team">Team Member</label>
+                        <select className="select my-inp w-full" id='team' defaultValue={''} {...register("teamMember")}>
+                            <option value={''} disabled>Team Member</option>
+                            {
+                                myTeams?.map(mt=> mt.member?.map((teamMember, ind) => <option key={ind} value={teamMember}>{teamMember}</option>))
+                            }
                         </select>
-                        {errors.priority && <span className='text-red-500 block font-semibold'>Priority is required!</span>}
                     </div>
 
                     <button className={`my-btn-one !flex items-center gap-2 ${insertTaskLoading ? 'opacity-40 !cursor-auto' : 'opacity-100 !cursor-pointer'}`} disabled={insertTaskLoading} type='submit'> <span><FaPlus></FaPlus></span> Add Task</button>
                 </form>
 
-                {/* My todo */}
-                {/* <div className='my-4'>
-                    {tasksLoading? <MyLoading></MyLoading> :tasks?.map((td, ind) => <p key={ind} className={`text-white p-4 rounded ${td.status === 'pending' ? 'bg-slate-900 bg-opacity-50' : 'bg-green-200 text-black'} my-3 relative`}>{td.title}  {td.status === 'pending' && <span className='bg-green-500 rounded h-6 w-6 flex items-center justify-center cursor-pointer absolute right-8 top-1/2 -translate-y-1/2' onClick={() => confirmTodoFunc(td._id)}><FaCheck></FaCheck></span>} <span className='bg-[#f87272] rounded h-6 w-6 flex items-center justify-center cursor-pointer absolute right-1 top-1/2 -translate-y-1/2' onClick={() => dispatch(deleteTodo(td._id))}>X</span></p>)}
-                </div> */}
             </div>
 
             <ToastContainer
