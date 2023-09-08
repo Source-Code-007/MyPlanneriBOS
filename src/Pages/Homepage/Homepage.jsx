@@ -118,20 +118,24 @@ const Homepage = () => {
                     <button className='!flex gap-1 items-center my-btn-one' onClick={addTaskFunc}>Add Task <FaPlus></FaPlus> </button>
                     <button className='!flex gap-1 items-center my-btn-one' onClick={createTeamFunc}> Create Team <FaPlus></FaPlus> </button>
                 </div>
-                <h2 className='font-bold text-3xl'>All Team</h2>
-                {
-                    !allTeam?.length > 0 ? <span className='my-2 font-bold text-red-300'>No team found!</span> : allTeam.map((team, ind) => {
-                        return <div key={ind} className='bg-emerald-500 bg-opacity-40 py-2 px-4 font-semibold space-y-3 relative'>
-                            <div className='flex items-center justify-between rounded'>
-                                <span className='font-bold text-xl text-purple-500'>{team.teamName}</span>
-                                <FaPlus className='cursor-pointer absolute right-1 top-1/2 -translate-x-1/2' onClick={() => addMemberInTeamFunc(team)}></FaPlus>
-                            </div>
-                            {
-                                !team.member?.length > 0 ? <p className='my-2 font-bold text-red-300 text-left'>No team member found!</p> : team.member?.map((tm, ind) => <p key={ind} className='space-y-1 text-left'>{tm}</p>)
-                            }
-                        </div>
-                    })
-                }
+         {
+               user &&    <div>
+                    <h2 className='font-bold text-3xl'>All Team</h2>
+                   {
+                       !allTeam?.length > 0 ? <span className='my-2 font-bold text-red-300'>No team found!</span> : allTeam.map((team, ind) => {
+                           return <div key={ind} className='bg-emerald-500 bg-opacity-40 py-2 px-4 font-semibold space-y-3 relative'>
+                               <div className='flex items-center justify-between rounded'>
+                                   <span className='font-bold text-xl text-purple-500'>{team.teamName}</span>
+                                   <FaPlus className='cursor-pointer absolute right-1 top-1/2 -translate-x-1/2' onClick={() => addMemberInTeamFunc(team)}></FaPlus>
+                               </div>
+                               {
+                                   !team.member?.length > 0 ? <p className='my-2 font-bold text-red-300 text-left'>No team member found!</p> : team.member?.map((tm, ind) => <p key={ind} className='space-y-1 text-left'>{tm}</p>)
+                               }
+                           </div>
+                       })
+                   }
+                   </div>
+         }
 
             </div>
 

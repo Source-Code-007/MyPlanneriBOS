@@ -5,10 +5,8 @@ import myLocalDB from "../../../util/localDB";
 const { getMyTasks } = myLocalDB
 const currentUser = localStorage.getItem('currentUser')
 const myTasks = getMyTasks(currentUser)
-console.log(currentUser);
-console.log(myTasks);
 const initialState = {
-    value: myTasks.length > 0 ? myTasks : []
+    value: myTasks?.length > 0 ? myTasks : []
 }
 
 
@@ -27,7 +25,6 @@ export const todoSlice = createSlice({
             updateTodoStatus.status = action.payload?.status
         },
         sortTodo: (state, action) => {
-            console.log(action.payload);
             // For ascending or descending
             if (action.payload.type === 'order') {
                 if (action.payload?.value === 'ascending') {

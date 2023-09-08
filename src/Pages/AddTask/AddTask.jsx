@@ -28,7 +28,6 @@ const AddTask = () => {
         const { title, dateTime, priority, teamMember } = form
         const task = {_id: uuidv4(), title, deadline: dateTime, status: 'pending', priority, user: teamMember? teamMember : user?.email}
 
-        console.log(task);
 
         // insert task to local state by redux
         dispatch(insertTodo(task))
