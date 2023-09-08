@@ -49,19 +49,6 @@ const AddTask = () => {
             reset()
         };
 
-        // const confirmTodoFunc = (id) => {
-        //     dispatch(confirmTodo(id))
-        //     toast('Task confirmed!', {
-        //         position: "bottom-right",
-        //         autoClose: 1500,
-        //         hideProgressBar: false,
-        //         closeOnClick: true,
-        //         pauseOnHover: true,
-        //         draggable: true,
-        //         progress: undefined,
-        //         theme: "dark",
-        //     });
-
 
     if (authLoading) {
         return <div className='h-screen flex items-center justify-center'>

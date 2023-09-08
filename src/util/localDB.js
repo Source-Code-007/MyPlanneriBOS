@@ -11,7 +11,6 @@ const storeUsers = (user) => {
 }
 
 // store tasks collection
-
 const storeTasks = (task) => {
     const tasksCollection = JSON.parse(localStorage.getItem('tasksCollection'))
     let newTasksCollection = []
