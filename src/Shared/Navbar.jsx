@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../Provider/authProvider';
 import MyLoading from '../Components/HelpingCompo/MyLoading';
-import { FaSignOutAlt, FaTasks } from 'react-icons/fa';
+import { FaSignOutAlt, FaTasks, FaUser } from 'react-icons/fa';
 import myLocalDB from '../util/localDB';
 
 const Navbar = () => {
@@ -18,7 +18,6 @@ const Navbar = () => {
                 setIsProfileOpen(false);
             }
         };
-
         window.addEventListener('click', handleOutsideClick);
         return () => {
             window.removeEventListener('click', handleOutsideClick);
@@ -49,7 +48,7 @@ const Navbar = () => {
                             <figure className='relative w-16' onClick={() => setIsProfileOpen(!isProfileOpen)} ref={profileRef}>
                                 <img src={user?.photoURL} title={user?.displayName} alt={user.displayName} className='h-12 w-12 block cursor-pointer rounded-full border-2 border-purple-500' />
                                 <ul className={`absolute top-full p-3 bg-slate-900 text-slate-100 border-2 border-purple-500 w-40 rounded transition-all duration-500 origin-top ${!isProfileOpen ? 'opacity-0 invisible -right-10' : 'opacity-100 visible right-2'}`}>
-                                    <p className=''>Bio: {myProfile?.bio}</p>
+                                    <Link to={'/my-profile'}>  <li className='flex gap-2 items-center py-2 cursor-pointer'> <FaUser></FaUser> My Profile</li></Link>
                                     <Link to={'/view-task'}>  <li className='flex gap-2 items-center py-2 cursor-pointer'> <FaTasks></FaTasks> My Tasks</li></Link>
                                     <li className='flex gap-2 items-center py-2 cursor-pointer' onClick={handleSignoutFunc}> <FaSignOutAlt></FaSignOutAlt> Sign Out</li>
                                 </ul>

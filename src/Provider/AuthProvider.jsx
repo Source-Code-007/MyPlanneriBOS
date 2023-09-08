@@ -62,8 +62,14 @@ const AuthProvider = ({ children }) => {
     // user monitoring
     useEffect(() => {
         const authMonitoring = onAuthStateChanged(auth, (currUser) => {
-            setAuthLoading(false)
-            setUser(currUser)
+            if (currUser) {
+                setAuthLoading(false)
+                setUser(currUser)
+                localStorage.setItem('currentUser', currUser?.email)
+            }
+            else {
+                localStorage.removeItem('currentUser')
+            }
         })
 
         return () => {

@@ -86,6 +86,7 @@ const teamInvitaionStatusFunc = (targetedUser, status, teamName) => {
     localStorage.setItem('usersCollection', JSON.stringify([...restUser, existUser]))
 }
 
+
 // Get all team
 const getTeam = () => {
     let teamCollection = JSON.parse(localStorage.getItem('teamCollection'))

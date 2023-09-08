@@ -12,6 +12,7 @@ import { AuthProvider } from './Provider/authProvider'
 import Signup from './Pages/Signup/Signup'
 import Signin from './Pages/Signin/Signin'
 import UserRoute from './PrivateRoute/UserRoute'
+import MyProfile from './Pages/MyProfile/MyProfile'
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
       {
         path: '/view-task',
         element: <UserRoute><ViewTask></ViewTask></UserRoute>
+      },
+      {
+        path: '/my-profile',
+        element: <UserRoute><MyProfile></MyProfile></UserRoute>
       }
     ]
   },
